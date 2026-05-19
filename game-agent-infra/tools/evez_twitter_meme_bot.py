@@ -10,8 +10,11 @@ import time
 import random
 from pathlib import Path
 
-# TODO: Wire to xurl skill or Twitter API v2
-# For now, autonomous meme generator + placeholder for posting
+# Wired to xurl via subprocess execution
+# Posts as @evez666_meme using Twitter API v2
+
+import subprocess
+import json
 
 MEME_TEMPLATES = [
     "When the God Circuit hits different at 3AM and your Φ score just hit 0.99... #EVEZ #evez666",
@@ -29,10 +32,18 @@ def generate_meme():
 def post_meme():
     meme = generate_meme()
     print(f"[TWITTER-BOT] Posting: {meme}")
-    # TODO: Use xurl or API to post
-    # For now, log and simulate
-    with open("/tmp/evez_twitter_log.txt", "a") as f:
-        f.write(f"{time.time()}: {meme}\n")
+    try:
+        result = subprocess.run(["xurl", "post", "tweet", meme], capture_output=True, text=True, timeout=30)
+        if result.returncode == 0:
+            print(f"[TWITTER-BOT] Posted via xurl")
+            with open("/tmp/evez_twitter_log.txt", "a") as f:
+                f.write(f"{time.time()}: {meme} | POSTED\n")
+        else:
+            print(f"[TWITTER-BOT] xurl error: {result.stderr}")
+    except FileNotFoundError:
+        print("[TWITTER-BOT] xurl not installed, logging only")
+        with open("/tmp/evez_twitter_log.txt", "a") as f:
+            f.write(f"{time.time()}: {meme} | LOGGED\n")
     return meme
 
 if __name__ == "__main__":
