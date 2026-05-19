@@ -10,6 +10,8 @@ import json
 from pathlib import Path
 from datetime import datetime
 
+BASE_DIR = Path("/root/.openclaw/workspace/game-agent-infra")
+
 class AutonomousEvolution:
     def __init__(self):
         self.running = True
@@ -19,7 +21,7 @@ class AutonomousEvolution:
         """Post meme every 30 minutes"""
         result = subprocess.run(
             ["python3", "tools/twitter_meme_agent_brutal.py"],
-            capture_output=True, text=True
+            capture_output=True, text=True, cwd=str(BASE_DIR)
         )
         return result.stdout
     
@@ -27,11 +29,14 @@ class AutonomousEvolution:
         """Auto-commit growth logs"""
         now = datetime.now().isoformat()
         log = {"timestamp": now, "cycle": self.cycle, "status": "evolving"}
-        Path("evez_data/autonomous_growth.jsonl").write_text(json.dumps(log) + "\n")
+        growth_file = BASE_DIR / "evez_data" / "autonomous_growth.jsonl"
+        growth_file.parent.mkdir(exist_ok=True)
+        growth_file.write_text(json.dumps(log) + "\n")
         
-        subprocess.run(["git", "add", "evez_data/autonomous_growth.jsonl"], capture_output=True)
-        subprocess.run(["git", "commit", "-m", f"Auto: autonomous evolution cycle #{self.cycle}"], capture_output=True)
-        subprocess.run(["git", "push"], capture_output=True)
+        subprocess.run(["git", "add", str(growth_file)], capture_output=True, cwd=str(BASE_DIR))
+        subprocess.run(["git", "commit", "-m", f"Auto: autonomous evolution cycle #{self.cycle}"], 
+                      capture_output=True, cwd=str(BASE_DIR))
+        subprocess.run(["git", "push"], capture_output=True, cwd=str(BASE_DIR))
     
     def run_market_expansion(self):
         """Calculate next expansion targets"""
