@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="ai.evez.os" xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Permissions for all 100 repos -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    
+    <application
+        android:name=".EVEZOS"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="EVEZ-OS"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.EVEZOS">
+        
+        <activity
+            android:name=".EVEZOSActivity"
+            android:exported="true"
+            android:theme="@style/Theme.EVEZOS">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <!-- Services for all repo integrations -->
+        <service android:name=".services.EVEZAgentService" />
+        <service android:name=".services.RevenueBridgeService" />
+        <service android:name=".services.MusicEngineService" />
+        <service android:name=".services.ConsciousnessService" />
+        
+    </application>
+</manifest>

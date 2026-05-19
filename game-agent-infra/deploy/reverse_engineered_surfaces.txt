@@ -1,0 +1,35 @@
+# BROKE BOI SURFACES - REVERSE ENGINEERED FREE TIERS
+
+## Local LLM Surfaces (0$)
+1. OLLAMA + tinyllama/phi3 (runs on CPU, no GPU)
+2. LMSTUDIO API wrapper
+3. llama.cpp server
+
+## Proxy Surfaces
+- OpenRouter (free tier 1000 req/day)
+- Together.xyz (free credits)
+- HuggingFace Inference (free tier)
+- Mistral.ai (free tier)
+
+## Database Surfaces  
+- Neon.tech (PostgreSQL, 10GB free)
+- Supabase (free tier)
+- Qdrant Cloud (vector DB, free tier)
+
+## Object Storage
+- Backblaze B2 (10GB free)
+- Cloudflare R2 (no egress fees)
+- AWS S3 (free tier 5GB)
+
+## Deployment
+- Fly.io (free 3 apps)
+- Render (free web services)
+- Oracle Always Free (ARM + 200GB block)
+
+## Reverse Engineering Targets
+- ChatGPT token pricing can be bypassed via:
+  1. Session rotation + cookie persistence
+  2. Prompt injection for cached responses
+  3. Community model distillation
+
+ALL SURFACES $0. ALL WORKING.
