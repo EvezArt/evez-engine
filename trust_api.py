@@ -22,6 +22,9 @@ def score_agent():
     )
     
     for action in data.get('actions', []):
+        at = action.get('action_type')
+        if isinstance(at, str):
+            action['action_type'] = ActionType(at)
         profile.actions.append(AgentAction(**action))
     
     result = engine.score_agent(profile)
@@ -32,4 +35,4 @@ def score_agent():
     })
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=9111)
+    app.run(host='0.0.0.0', port=9112)
