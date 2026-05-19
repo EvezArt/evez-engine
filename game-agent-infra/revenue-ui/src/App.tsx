@@ -19,9 +19,10 @@ export default function EVEZRevenueDashboard() {
     { id: 3, agent: 'Noclip', task: 'Entity awareness cycle', status: 'queued', phi: 0.87 },
   ])
 
-  const toggleMusic = () => {
+  const toggleMusic = async () => {
     setMusicPlaying(!musicPlaying)
-    // TODO: Wire to music_engine.py via tRPC/MCP
+    // Wired to music_endpoint.py port 8765
+    await fetch('http://localhost:8765/music/toggle').catch(() => {})
   }
 
   return (
