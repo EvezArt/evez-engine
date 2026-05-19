@@ -6,6 +6,7 @@ Score any AI agent for $0.01/call
 
 from flask import Flask, request, jsonify
 from agent_trust_engine import SpectralTrustEngine, AgentProfile, ActionType, AgentAction
+import time
 
 app = Flask(__name__)
 engine = SpectralTrustEngine()
@@ -21,6 +22,7 @@ def score_agent():
         capabilities=data.get('capabilities', [])
     )
     
+    # Convert string action_type to enum
     for action in data.get('actions', []):
         at = action.get('action_type')
         if isinstance(at, str):
@@ -31,6 +33,7 @@ def score_agent():
     return jsonify({
         'score': result['score'],
         'tier': result['tier'],
+        'factors': {k: float(v) if hasattr(v, 'item') else v for k, v in result['factors'].items()},
         'cost': '$0.01'
     })
 
